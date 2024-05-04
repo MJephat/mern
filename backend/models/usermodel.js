@@ -11,7 +11,9 @@ const userSchema= new mongoose.Schema({
         minlength:5
     },
     usertype:{
-        enum:["Customer","Agent"]
+        type:String,
+        required:true,
+        enum:["customer","agent"]
     }
 },
 {timestamps:true}
