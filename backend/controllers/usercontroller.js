@@ -1,6 +1,6 @@
-const User = require("../models/usermodel")
+const User = requir ("../models/user.model.js");
 
-exports.getUsersForSidebar = async (req, res) => {
+export const getUsersForSidebar = async (req, res) => {
   try {
     const loggedInUserId = req.user._id;
 

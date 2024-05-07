@@ -42,7 +42,7 @@ exports.sendMessage = async(req, res)=>{
         res.status(500).json({error: "internal Server error"});
         
     }
-}
+};
 
 exports.getMessages = async (req, res) => {
   try {
