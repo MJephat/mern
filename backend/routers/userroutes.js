@@ -1,9 +1,10 @@
-const express = require ("express");
-const protectRoute = require( "../middleware/protectRoute.js");
-const { getUsersForSidebar } = require ("../controllers/user.controller.js");
+const express = require("express");
+const { protectRoute } = require("../middleware/protectedRoute");
+const  getUsersForSidebar  = require("../controllers/usercotroller");
 
 const router = express.Router();
 
-router.get("/", protectRoute, getUsersForSidebar);
+router.get('/',protectRoute,getUsersForSidebar);
+// router.route("/").get(protectRoute,getUsersForSidebar);
 
 module.exports = router;

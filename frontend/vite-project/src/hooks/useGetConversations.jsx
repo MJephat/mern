@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 
 const useGetConversations = () =>{
@@ -15,7 +16,7 @@ const useGetConversations = () =>{
             if(data.error){
                 throw new Error(data.error);
             }
-            setConversations()
+            setConversations(data);
         } catch (error) {
         toast.error(error.message);
         }finally{

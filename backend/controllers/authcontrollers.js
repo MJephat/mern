@@ -1,9 +1,9 @@
-const User = require('../models/usermodel.js')
+const User = require('../models/usermodel')
 const bcrypt = require('bcryptjs');
-const generateTokenAndSetCookie = require('../utils/generateToken.js');
+const {generateTokenAndSetCookie} = require('../utils/generateToken');
 
 
-exports.signup = async (req, res) => {
+const signup = async (req, res) => {
     try {
         const {username,password, confirmPassword,usertype} =req.body;
 
@@ -47,7 +47,7 @@ exports.signup = async (req, res) => {
     }
 };
 
-exports.login = async (req, res)=>{
+const login = async (req, res)=>{
     try {
         const {username, password} = req.body;
         const user = await User.findOne({username})
@@ -71,7 +71,7 @@ exports.login = async (req, res)=>{
     }
 };
 
-exports.logout = async (req, res)=>{
+const logout = async (req, res)=>{
     try {
         res.cookie("jwt","", {maxAge: 0});
         res.status(200).json({message: "logged out successfully"});
@@ -81,3 +81,4 @@ exports.logout = async (req, res)=>{
     }
 }
 
+module.exports ={signup, login, logout};

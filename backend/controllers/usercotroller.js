@@ -1,6 +1,6 @@
-const User = requir ("../models/user.model.js");
+const User = require("../models/usermodel.js")
 
-export const getUsersForSidebar = async (req, res) => {
+const getUsersForSidebar = async (req, res) => {
   try {
     const loggedInUserId = req.user._id;
 
@@ -14,3 +14,5 @@ export const getUsersForSidebar = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+module.exports = getUsersForSidebar;
