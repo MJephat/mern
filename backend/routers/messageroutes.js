@@ -3,7 +3,7 @@ const {
   getMessages,
   sendMessage,
 } = require("../controllers/messagecontroller");
-const { protectRoute } = require("../middleware/protectedRoute");
+const  {protectRoute}  = require("../middleware/protectedRoute");
 
 const router = express.Router();
 

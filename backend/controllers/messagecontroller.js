@@ -42,22 +42,51 @@ exports.sendMessage = async (req, res) => {
   }
 };
 
+// exports.getMessages = async (req, res) => {
+//   try {
+//     const { id: userToChatId } = req.params;
+//     const senderId = req.user._id;
+
+//     const conversation = await Conversation.findOne({participants: { $all: [senderId, userToChatId] },})
+//     .populate("messages"); // NOT REFERENCE BUT ACTUAL MESSAGES
+
+//     if (!conversation) return res.status(200).json([]);
+
+//     const messages = conversation.messages;
+
+//     res.status(200).json(messages);
+//   } catch (error) {
+//     console.log("Error in getMessages controller: ", error.message);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// };
+
 exports.getMessages = async (req, res) => {
   try {
-    const { id: userToChatId } = req.params;
     const senderId = req.user._id;
 
-    const conversation = await Conversation.findOne({
-      participants: { $all: [senderId, userToChatId] },
-    }).populate("messages"); // NOT REFERENCE BUT ACTUAL MESSAGES
+    // Find all conversations where the sender is a participant
+    const conversations = await Conversation.find({
+      participants: senderId,
+    }).populate("messages"); // Populate actual messages
 
-    if (!conversation) return res.status(200).json([]);
+    // If there are no conversations, return an empty array
+    if (!conversations || conversations.length === 0) {
+      return res.status(200).json([]);
+    }
 
-    const messages = conversation.messages;
+    // Extract messages from all conversations
+    const allMessages = conversations.reduce((acc, conv) => {
+      acc.push(...conv.messages);
+      return acc;
+    }, []);
 
-    res.status(200).json(messages);
+    // Respond with all messages
+    res.status(200).json(allMessages);
   } catch (error) {
+    // Log error and respond with an internal server error
     console.log("Error in getMessages controller: ", error.message);
     res.status(500).json({ error: "Internal server error" });
   }
 };
+;
