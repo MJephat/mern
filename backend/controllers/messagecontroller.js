@@ -1,5 +1,6 @@
 const Conversation = require("../models/conversationmodel");
 const Message = require("../models/messagemodel");
+const { getReceiverSocketId,io } = require("../socket/socket");
 
 exports.sendMessage = async (req, res) => {
   try {
@@ -27,14 +28,18 @@ exports.sendMessage = async (req, res) => {
       conversation.messages.push(newMessage._id);
     }
 
-    // socket io functionality
-
     // await conversation.save();
     // await newMessage.save();
 
     // the above 2 lines replaced..will hep to run in parallel
     await Promise.all([conversation.save(), newMessage.save()]);
 
+    // socket io functionality
+      const receiverSocketId = getReceiverSocketId(receiverId);
+      if (receiverSocketId) {
+        // io.to( to send events to specific client)
+        io.to(getReceiverSocketId).emit("newMessage", newMessage);
+      }
     res.status(201).json(newMessage);
   } catch (error) {
     console.log("Error in sendMessage controller: ", error.message);
@@ -61,13 +66,14 @@ exports.sendMessage = async (req, res) => {
 //   }
 // };
 
+
 exports.getMessages = async (req, res) => {
   try {
-    const senderId = req.user._id;
+    const {id: receiverId} = req.params
 
     // Find all conversations where the sender is a participant
     const conversations = await Conversation.find({
-      participants: senderId,
+      participants: receiverId,
     }).populate("messages"); // Populate actual messages
 
     // If there are no conversations, return an empty array
@@ -89,4 +95,8 @@ exports.getMessages = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-;
+
+
+
+
+
