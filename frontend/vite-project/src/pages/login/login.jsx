@@ -16,45 +16,63 @@ const Login = () => {
     <div className="flex flex-col items-center justify-center min-w-96 mx-auto">
       <div className="w-full p-6 rounded-lg shadow-md bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0">
         <h1 className="text-3xl font-semibold text-center text-gray-300">
-          Login
-          <span className="text-blue-500"> ChatApp</span>
+          Agent's Portal
+          <span className="text-blue-500"> </span>
         </h1>
 
         <form onSubmit={handleSubmit}>
           <div>
             <label className="label p-2">
-              <span className="text-base label-text">Username</span>
+              {/* <span className="text-base label-text">Username</span> */}
             </label>
-            <input
+            {/* <input
               type="text"
               placeholder="Enter username"
               className="w-full input input-bordered h-10"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-            />
+            /> */}
           </div>
 
           <div>
             <label className="label">
-              <span className="text-base label-text">Password</span>
+              {/* <span className="text-base label-text">Password</span> */}
+              <span className="text-base label-text text-gray-300">Agent should click on the button below to access the messages</span>
             </label>
-            <input
+            {/* <input
               type="password"
               placeholder="Enter Password"
               className="w-full input input-bordered h-10"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-            />
+            /> */}
           </div>
           <br />
           <div>
-            <button className="btn btn-block btn-sm mt-2" disabled={loading}>
+            <button
+              className="btn btn-block btn-sm mt-2"
+              disabled={loading}
+              onClick={() => {
+                setUsername("Agent");
+                setPassword("password");
+              }}
+            >
               {loading ? (
                 <span className="loading loading-spinner "></span>
               ) : (
-                "Login"
+                "Auto Agent Login"
               )}
             </button>
+            {/* <br />
+            <button
+              className="btn btn-block btn-sm mt-2"
+              onClick={() => {
+                setUsername("Agent");
+                setPassword("password");
+              }}
+            >
+              Agent's Credentials
+            </button> */}
           </div>
         </form>
       </div>
