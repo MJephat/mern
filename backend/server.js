@@ -1,4 +1,5 @@
 // imports
+const path=require('path');
 const express = require("express");
 const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
@@ -16,12 +17,25 @@ const connectDB = require("./db/db");
 dotenv.config();
 connectDB();
 
+
+const currentDirectory = path.resolve();
+
 app.use(express.json()); // to parse the incoming requests withjson payloads
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/users", userRoutes);
+
+app.use(
+  express.static(path.join(currentDirectory, "/frontend/vite-project/dist"))
+);
+
+app.get("*", (req, res) => {
+  res.sendFile(
+    path.join(currentDirectory, "frontend/vite-project", "dist", "index.html")
+  );
+});
 
 const PORT = process.env.Port || 8000;
 server.listen(PORT, console.log(`server started on port ${PORT}!`));
