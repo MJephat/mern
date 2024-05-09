@@ -33,7 +33,7 @@ app.use(
 
 app.get("*", (req, res) => {
   res.sendFile(
-    path.join(currentDirectory, "frontend/vite-project", "dist", "index.html")
+    path.join(currentDirectory, "frontend","vite-project", "dist", "index.html")
   );
 });
 
